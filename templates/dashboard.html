@@ -1,0 +1,41 @@
+<!-- templates/dashboard.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-5">Generated Album Artworks</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Filename</th>
+                    <th>Upload Date</th>
+                    <th>Artwork</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for track in tracks %}
+                <tr>
+                    <td>{{ track.id }}</td>
+                    <td>{{ track.filename }}</td>
+                    <td>{{ track.upload_date.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    <td>
+                        {% if track.artwork_path %}
+                            <img src="{{ url_for('serve_artwork', filename=track.artwork_path.split('/')[-1]) }}" alt="Artwork" width="200">
+                        {% else %}
+                            <span class="text-warning">Generating...</span>
+                        {% endif %}
+                    </td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('index') }}" class="btn btn-primary">Upload Another File</a>
+    </div>
+</body>
+</html>
